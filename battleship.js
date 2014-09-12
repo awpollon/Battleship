@@ -65,9 +65,36 @@ var view = {
 };
 
 var controller = {
-	shipsSunk: 0, 
+	numGuesses: 0, 
+	processGuess: function(guess){
+		var button = document.getElementById("fireButton");
+	}
 	
 };
 
-model.fire("00");
-// model.fire("10");
+function parseGuess(guess) {
+	var alphabet = ["A", "B", "C" , "D", "E", "F", "G"];
+	
+	if(guess == null || guess.length !=2) {
+		alert("Invalid input. Please enter a letter and a number.");
+	}
+	else {
+		var firstChar = guess.charAt(0);
+		var row = alphabet.indexOf(firstChar);
+		var column = guess.charAt(1);
+		
+		//Check if within number of rows
+		if(isNaN(row) || isNaN(column)) {
+			alert("Invalid input. Off the board");
+		}
+		else if(row < 0 || row >= model.boardSize || column < 0 || column >= model.boardSize) {
+			alert("Invalid input. Off the board");
+		}
+		else {
+			//Else valid input
+			return row + column;
+		}
+	}
+	//If hasn't returned, invalid input
+	return null;
+}
