@@ -29,40 +29,40 @@ var model = {
 			this.ships[i].locations = locations;
 		}
 	},
-	
-	generateShip: function() {
-			
-			//Choose random direction
-			var isHorizontal = Math.floor(Math.random() * 2);
-			var newShipLocations = [];
 
-			//Choose random starting point within dimensions (based on direction)
-			var row = Math.floor(Math.random() * (this.boardSize));
-			var column = Math.floor(Math.random() * (this.boardSize - (this.shipLength - 1)));
-			console.log("Column: " + column);
+	generateShip : function() {
 
-			//If ship is vertical, swap values
-			if (!isHorizontal) {
-				var temp = row;
-				row = column;
-				column = temp;
-			}
+		//Choose random direction
+		var isHorizontal = Math.floor(Math.random() * 2);
+		var newShipLocations = [];
 
-			//Increment in chosen direction by one, shipLength-1 times
-			for (var j = 0; j < this.shipLength; j++) {
+		//Choose random starting point within dimensions (based on direction)
+		var row = Math.floor(Math.random() * (this.boardSize));
+		var column = Math.floor(Math.random() * (this.boardSize - (this.shipLength - 1)));
+		console.log("Column: " + column);
 
-				var location = "" + row + column;
-				console.log(location);
-				newShipLocations.push(location);
+		//If ship is vertical, swap values
+		if (!isHorizontal) {
+			var temp = row;
+			row = column;
+			column = temp;
+		}
 
-				if (isHorizontal)
-					column++;
-				else
-					row++;
-			}
-			return newShipLocations;
+		//Increment in chosen direction by one, shipLength-1 times
+		for (var j = 0; j < this.shipLength; j++) {
+
+			var location = "" + row + column;
+			console.log(location);
+			newShipLocations.push(location);
+
+			if (isHorizontal)
+				column++;
+			else
+				row++;
+		}
+		return newShipLocations;
 	},
-	
+
 	//Method to check if new ship will conflict with existing ship
 	collision : function(locations) {
 		for (var i = 0; i < this.numShips; i++) {
@@ -84,12 +84,13 @@ var model = {
 			if (index >= 0) {
 				//Hit!
 				ship.hits[index] = "hit";
-				if (this.isSunk(ship)) {
-					this.shipsSunk++;
-					console.log("Sunk!");
-				}
 				view.displayHit(guess);
 				view.displayMessage("Hit!");
+				if (this.isSunk(ship)) {
+					this.shipsSunk++;
+					view.displayMessage("You sunk my battleship!");
+					console.log("Sunk!");
+				}
 				return true;
 			}
 		}
@@ -104,7 +105,6 @@ var model = {
 			if (ship.hits[i] !== "hit")
 				return false;
 		}
-		view.displayMessage("You sunk my battleship!");
 		return true;
 	}
 };
