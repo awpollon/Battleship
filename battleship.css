@@ -17,5 +17,7 @@ body {
 #game {
 	position: relative;
 	background: url("resources/board.jpg") no-repeat;
-	height: 2000px;
+	width: 1024px;
+	margin: auto;
+	height: 863px;
 }
