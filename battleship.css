@@ -14,10 +14,52 @@ body {
 	background-color: #ECF0CC;
 	}
 
-#game {
+#board {
 	position: relative;
 	background: url("resources/board.jpg") no-repeat;
 	width: 1024px;
 	margin: auto;
 	height: 863px;
+}
+
+table {
+	position: absolute;
+	left: 173px;
+	top: 98px;
+	border-spacing: 0px;
+}
+
+td {
+	width: 94px;
+	height: 94px;
+}
+
+#message {
+	position: absolute;
+	color: white;
+	top: 0px;
+	left: 0px;
+	font-size: 30px;
+	font-family: Impact;
+}
+
+form {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background-color: #ECF0CC;
+}
+
+form input {
+	background-color: #BCFAB9;
+	border-color: white;
+	font-size: 1em;
+}
+
+.hit {
+	background: url("resources/ship.png") no-repeat center center;
+}
+
+.miss {
+	background: url("resources/miss.png") no-repeat center center;
 }
