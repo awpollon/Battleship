@@ -1,2 +1,14 @@
 body {
 }
+
+#page_title {
+	color: green;
+	font-family: Impact;
+	text-align: center;
+	font-size: 60px;
+	font-style: italic;
+}
+
+#page_header {
+	background-color: #ECF0CC;
+	/*height: 100px; */}
