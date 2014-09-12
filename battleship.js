@@ -13,18 +13,35 @@ var model = {
 			{ locations: ["63", "64", "65"], hits: ["", "", ""] }],
 
 	fire: function(guess) {
-		for(var i=0; i < this.numShips; i++) {			
-			var index = this.ships[i].locations.indexOf(guess);
+		for(var i=0; i < this.numShips; i++) {	
+			var ship = this.ships[i];		
+			var index = ship.locations.indexOf(guess);
 			if(index >= 0) {
 				//Hit!
-				this.ships[i].hits[index] = "hit";
+				ship.hits[index] = "hit";
+				if (this.isSunk(ship)) {
+					this.shipsSunk++; 
+					console.log("Sunk!"); 
+				}
+				view.displayHit(guess);
+				view.displayMessage("Hit!");
 				return true;
 			}
 			else {
 				//Miss
+				view.displayMiss(guess);
+				view.displayMessage("Miss");
 				return false;
 			}			
 		}
+	},
+	
+	isSunk: function(ship){
+		for(var i=0; i<this.shipLength; i++) {
+			if (ship.hits[i] !== "hit") return false;
+		}
+		view.displayMessage("You sunk my battleship!");
+		return true;
 	}
 	
 };
@@ -48,8 +65,9 @@ var view = {
 };
 
 var controller = {
+	shipsSunk: 0, 
 	
 };
 
-
-console.log(model.fire("10"));
+model.fire("00");
+// model.fire("10");
