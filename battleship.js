@@ -72,7 +72,7 @@ var controller = {
 
 	processGuess : function(guess) {
 		var location = parseGuess(guess);
-		console.log(location);
+		console.log("Location: " + location);
 		if (location) {
 			this.numGuesses++;
 			var hasHit = model.fire(location);
@@ -81,7 +81,6 @@ var controller = {
 				view.displayMessage("Congratulations! You have sunk all " + model.numShips + " ships in " + this.numGuesses + " guesses!");
 			}
 		}
-		var button = document.getElementById("fireButton");
 	}
 };
 
@@ -109,17 +108,46 @@ function parseGuess(guess) {
 	return null;
 }
 
-controller.processGuess("A6");
+function init() {
+	var fireButton = document.getElementById("fireButton");
+	fireButton.onclick = handleFireButton;
+	var textArea = document.getElementById("input");
+	textArea.onkeypress = handleKeyPress;
+}
 
-controller.processGuess("B0");
-controller.processGuess("C0");
-controller.processGuess("D0");
+function handleKeyPress(e){
+	var fireButton = document.getElementById("fireButton");
+	if(e.keycode === 13) {
+		fireButton.click();
+		return false;
+	}
+}
 
-controller.processGuess("D2");
-controller.processGuess("D3");
-controller.processGuess("D4");
+function handleFireButton() {
+	var textArea = document.getElementById("input");
+	var input = textArea.value;
+	if (input) {
+		console.log("Input:" + input);
+		controller.processGuess(input);
+	}
+	textArea.value = "";
+	
+	return false;
+}
 
-controller.processGuess("G3");
-controller.processGuess("G4");
-controller.processGuess("G5");
+window.onload = init;
+
+// controller.processGuess("A6");
+// 
+// controller.processGuess("B0");
+// controller.processGuess("C0");
+// controller.processGuess("D0");
+// 
+// controller.processGuess("D2");
+// controller.processGuess("D3");
+// controller.processGuess("D4");
+// 
+// controller.processGuess("G3");
+// controller.processGuess("G4");
+// controller.processGuess("G5");
 
