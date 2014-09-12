@@ -9,15 +9,73 @@ var model = {
 	shipLength : 3,
 
 	ships : [{
-		locations : ["10", "20", "30"],
+		locations : ["0", "0", "0"],
 		hits : ["", "", ""]
 	}, {
-		locations : ["32", "33", "34"],
+		locations : ["0", "0", "0"],
 		hits : ["", "", ""]
 	}, {
-		locations : ["63", "64", "65"],
+		locations : ["0", "0", "0"],
 		hits : ["", "", ""]
 	}],
+
+	generateShipLocations : function() {
+		var locations;
+		//Loop through each ship
+		for (var i = 0; i < this.numShips; i++) {
+			do {
+				locations = this.generateShip();
+			} while (this.collision(locations));
+			this.ships[i].locations = locations;
+		}
+	},
+	
+	generateShip: function() {
+			
+			//Choose random direction
+			var isHorizontal = Math.floor(Math.random() * 2);
+			var newShipLocations = [];
+
+			//Choose random starting point within dimensions (based on direction)
+			var row = Math.floor(Math.random() * (this.boardSize));
+			var column = Math.floor(Math.random() * (this.boardSize - (this.shipLength - 1)));
+			console.log("Column: " + column);
+
+			//If ship is vertical, swap values
+			if (!isHorizontal) {
+				var temp = row;
+				row = column;
+				column = temp;
+			}
+
+			//Increment in chosen direction by one, shipLength-1 times
+			for (var j = 0; j < this.shipLength; j++) {
+
+				var location = "" + row + column;
+				console.log(location);
+				newShipLocations.push(location);
+
+				if (isHorizontal)
+					column++;
+				else
+					row++;
+			}
+			return newShipLocations;
+	},
+	
+	//Method to check if new ship will conflict with existing ship
+	collision : function(locations) {
+		for (var i = 0; i < this.numShips; i++) {
+			var ship = model.ships[i];
+			for (var j = 0; j < locations.length; j++) {
+				if (ship.locations.indexOf(locations[j]) >= 0) {
+					console.log("Collision!");
+					return true;
+				}
+			}
+		}
+		return false;
+	},
 
 	fire : function(guess) {
 		for (var i = 0; i < this.numShips; i++) {
@@ -113,11 +171,13 @@ function init() {
 	fireButton.onclick = handleFireButton;
 	var textArea = document.getElementById("input");
 	textArea.onkeypress = handleKeyPress;
+
+	model.generateShipLocations();
 }
 
-function handleKeyPress(e){
+function handleKeyPress(e) {
 	var fireButton = document.getElementById("fireButton");
-	if(e.keycode === 13) {
+	if (e.keycode === 13) {
 		fireButton.click();
 		return false;
 	}
@@ -131,22 +191,22 @@ function handleFireButton() {
 		controller.processGuess(input);
 	}
 	textArea.value = "";
-	
+
 	return false;
 }
 
 window.onload = init;
 
 // controller.processGuess("A6");
-// 
+//
 // controller.processGuess("B0");
 // controller.processGuess("C0");
 // controller.processGuess("D0");
-// 
+//
 // controller.processGuess("D2");
 // controller.processGuess("D3");
 // controller.processGuess("D4");
-// 
+//
 // controller.processGuess("G3");
 // controller.processGuess("G4");
 // controller.processGuess("G5");
