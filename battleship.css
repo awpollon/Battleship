@@ -1,4 +1,5 @@
 body {
+	background-color: black;
 }
 
 #page_title {
@@ -11,4 +12,10 @@ body {
 
 #page_header {
 	background-color: #ECF0CC;
-	/*height: 100px; */}
+	}
+
+#game {
+	position: relative;
+	background: url("resources/board.jpg") no-repeat;
+	height: 2000px;
+}
