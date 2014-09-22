@@ -128,13 +128,12 @@ var view = {
 var controller = {
 	numGuesses : 0,
 
-	processGuess : function(guess) {
-		var location = parseGuess(guess);
+	processGuess : function(location) {
 		console.log("Location: " + location);
 		if (location) {
 			this.numGuesses++;
 			var hasHit = model.fire(location);
-			if (hasHit && model.shipsSunk === model.numShips) {
+			if (hasHit && (model.shipsSunk === model.numShips)) {
 				//Gome Over
 				view.displayMessage("Congratulations! You have sunk all " + model.numShips + " ships in " + this.numGuesses + " guesses!");
 			}
@@ -171,8 +170,18 @@ function init() {
 	fireButton.onclick = handleFireButton;
 	var textArea = document.getElementById("input");
 	textArea.onkeypress = handleKeyPress;
-
 	model.generateShipLocations();
+	
+	var cells = document.getElementsByTagName("td");
+	for (var i=0; i<cells.length; i++) {
+		cells[i].onclick = registerCellClick;
+	}
+}
+
+function registerCellClick(eventObj){
+	var cell = eventObj.target;
+	console.log(cell.id);
+	controller.processGuess(cell.id);
 }
 
 function handleKeyPress(e) {
@@ -188,7 +197,7 @@ function handleFireButton() {
 	var input = textArea.value;
 	if (input) {
 		console.log("Input:" + input);
-		controller.processGuess(input);
+		controller.processGuess(parseGuess(input));
 	}
 	textArea.value = "";
 
