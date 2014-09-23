@@ -135,7 +135,9 @@ var controller = {
 			var hasHit = model.fire(location);
 			if (hasHit && (model.shipsSunk === model.numShips)) {
 				//Gome Over
-				view.displayMessage("Congratulations! You have sunk all " + model.numShips + " ships in " + this.numGuesses + " guesses!");
+				view.displayMessage("Game over!");
+				alert("Congratulations! You have sunk all " + model.numShips + " ships in " + this.numGuesses + " guesses!");
+				window.location.reload();
 			}
 		}
 	}
